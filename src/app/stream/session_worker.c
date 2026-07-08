@@ -34,6 +34,9 @@ int session_worker(session_t *session) {
     if (session->config.stream.audioConfiguration == AUDIO_CONFIGURATION_51_SURROUND) {
         // 6 channels, 4 streams, 2 coupled streams, FL, FR, SL, SR, FC, LFE
         surround_params = "642014523";
+    } else if (session->config.stream.audioConfiguration == AUDIO_CONFIGURATION_71_SURROUND) {
+        // 8 channels, 5 streams, 2 coupled streams, FL, FR, SL, SR, FC, LFE, BL, BR
+        surround_params = "85301456723";
     }
 #endif
     int ret = gs_start_app(client, server, &session->config.stream, appId, server->isGfe, session->config.sops,

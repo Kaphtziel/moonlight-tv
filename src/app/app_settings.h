@@ -78,6 +78,9 @@ extern const size_t audio_config_len;
 #define RES_1440P RES_MERGE(2560, 1440)
 #define RES_1800P RES_MERGE(3200, 1800)
 #define RES_4K RES_MERGE(3840, 2160)
+#define RES_3440X1440 RES_MERGE(3440, 1440)
+#define RES_3840X1600 RES_MERGE(3840, 1600)
+#define RES_3840X1620 RES_MERGE(3840, 1620)
 
 void settings_initialize(app_settings_t *config, char *conf_dir);
 

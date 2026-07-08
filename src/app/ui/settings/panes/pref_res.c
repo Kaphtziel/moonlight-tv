@@ -38,6 +38,9 @@ static const resolution_pair_t built_in_resolutions[] = {
     {1280, 720, true},
     {1920, 1080},
     {2560, 1440},
+    {3440, 1440},
+    {3840, 1600},
+    {3840, 1620},
     {3840, 2160},
 };
 
@@ -70,8 +73,8 @@ lv_obj_t *pref_dropdown_res(lv_obj_t *parent, int native_w, int native_h, int ma
     bool is_16by9 = native_w <= 0 || native_h <= 0 || native_w * 9 == native_h * 16;
     bool using_custom = true;
 
-    // maximum 4 built-in resolutions + 1 native resolution + 1 custom resolution
-    pref_dropdown_int_pair_entry_t *entries = lv_mem_alloc(6 * sizeof(pref_dropdown_int_pair_entry_t));
+    // maximum 7 built-in resolutions + 1 native resolution + 1 custom resolution
+    pref_dropdown_int_pair_entry_t *entries = lv_mem_alloc(9 * sizeof(pref_dropdown_int_pair_entry_t));
     int num_entries = 0;
 
     char label_buf[32];
@@ -346,4 +349,3 @@ static void populate_dialog_btn(pref_resolution_ctx_t *ctx) {
         lv_btnmatrix_set_btn_ctrl(dialog_btns, 1, LV_BTNMATRIX_CTRL_DISABLED);
     }
 }
-

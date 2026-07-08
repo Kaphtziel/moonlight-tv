@@ -44,7 +44,7 @@ void settings_initialize(app_settings_t *config, char *conf_dir) {
     config->stream.height = 720;
     config->stream.fps = 60;
     config->stream.bitrate = settings_optimal_bitrate(NULL, 1280, 720, 60);
-    config->stream.packetSize = 1392;
+    config->stream.packetSize = 1450;
     config->stream.streamingRemotely = STREAM_CFG_AUTO;
     config->stream.audioConfiguration = AUDIO_CONFIGURATION_STEREO;
 
@@ -170,6 +170,13 @@ int settings_optimal_bitrate(const SS4S_VideoCapabilities *capabilities, int w, 
         case RES_1800P:
         case RES_4K:
             kbps = 25000;
+            break;
+        case RES_3440X1440:
+            kbps = 30000;
+            break;
+        case RES_3840X1600:
+        case RES_3840X1620:
+            kbps = 35000;
             break;
     }
     unsigned int suggested_max = 0;
