@@ -170,7 +170,7 @@ static void detail_group_add(lv_event_t *event) {
 }
 
 static void controller_label_update_cb(lv_timer_t *timer) {
-    launcher_fragment_t *controller = lv_timer_get_user_data(timer);
+    launcher_fragment_t *controller = timer->user_data;
     int count = app_input_get_gamepads_count(&controller->global->input);
     lv_label_set_text_fmt(controller->controller_label, "%d", count);
 }
@@ -178,6 +178,6 @@ static void controller_label_update_cb(lv_timer_t *timer) {
 static void controller_label_timer_delete_cb(lv_event_t *e) {
     lv_timer_t *timer = lv_event_get_user_data(e);
     if (timer) {
-        lv_timer_delete(timer);
+        lv_timer_del(timer);
     }
 }
