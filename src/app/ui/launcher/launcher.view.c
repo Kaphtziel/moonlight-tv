@@ -13,9 +13,14 @@
 #include "util/i18n.h"
 
 #include "app.h"
+#include "input/input_gamepad.h"
 #include "lvgl/theme/lv_theme_moonlight.h"
 
 static void detail_group_add(lv_event_t *event);
+
+static void controller_label_update_cb(lv_timer_t *timer);
+
+static void controller_label_timer_delete_cb(lv_event_t *e);
 
 #define NAV_WIDTH_EXPANDED 240
 #define NAV_TRANSLATE_OFFSET (NAV_WIDTH_EXPANDED - NAV_WIDTH_COLLAPSED)
@@ -93,6 +98,12 @@ lv_obj_t *launcher_win_create(lv_fragment_t *self, lv_obj_t *parent) {
     lv_label_set_text_static(title_label, "Moonlight");
     lv_obj_get_style_flex_grow(title_label, 1);
 
+    lv_obj_t *controller_label = lv_label_create(title);
+    lv_obj_set_style_pad_hor(controller_label, LV_DPX(10), 0);
+    lv_obj_set_style_text_font(controller_label, lv_theme_get_font_small(title), 0);
+    lv_label_set_text_static(controller_label, "");
+    controller->controller_label = controller_label;
+
     lv_obj_t *pclist = lv_list_create(nav);
     lv_obj_add_flag(pclist, LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_set_width(pclist, LV_PCT(100));
@@ -128,6 +139,9 @@ lv_obj_t *launcher_win_create(lv_fragment_t *self, lv_obj_t *parent) {
     lv_btn_set_text_font(quit_btn, lv_theme_get_font_small(nav));
     lv_obj_add_flag(quit_btn, LV_OBJ_FLAG_EVENT_BUBBLE);
 
+    lv_timer_t *controller_label_timer = lv_timer_create(controller_label_update_cb, 1000, controller);
+    lv_obj_add_event_cb(win, controller_label_timer_delete_cb, LV_EVENT_DELETE, controller_label_timer);
+
     controller->nav = nav;
     controller->detail = detail;
     controller->pclist = pclist;
@@ -153,4 +167,17 @@ static void detail_group_add(lv_event_t *event) {
         return;
     }
     lv_group_add_obj(fragment->detail_group, child);
+}
+
+static void controller_label_update_cb(lv_timer_t *timer) {
+    launcher_fragment_t *controller = lv_timer_get_user_data(timer);
+    int count = app_input_get_gamepads_count(&controller->global->input);
+    lv_label_set_text_fmt(controller->controller_label, "%d", count);
+}
+
+static void controller_label_timer_delete_cb(lv_event_t *e) {
+    lv_timer_t *timer = lv_event_get_user_data(e);
+    if (timer) {
+        lv_timer_delete(timer);
+    }
 }
