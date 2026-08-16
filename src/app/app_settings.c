@@ -44,7 +44,7 @@ void settings_initialize(app_settings_t *config, char *conf_dir) {
     config->stream.height = 720;
     config->stream.fps = 60;
     config->stream.bitrate = settings_optimal_bitrate(NULL, 1280, 720, 60);
-    config->stream.packetSize = 1392;
+    config->stream.packetSize = 1450;
     config->stream.streamingRemotely = STREAM_CFG_AUTO;
     config->stream.audioConfiguration = AUDIO_CONFIGURATION_STEREO;
 
